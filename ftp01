@@ -1,0 +1,28 @@
+from ftplib import FTP
+from pathlib import Path
+import os
+import sendMail
+
+fileName='xmen_base.txt'
+hostDir='C:\\Users\\Ram-PC\\Desktop\\python_script'
+
+#change dir to the ftp directory
+if not os.getcwd() == hostDir:
+    os.chdir(hostDir)
+
+try:
+    os.path.isfile(os.path.abspath('xmen_base.txt'))
+    print("File ", fileName, "exists" )
+except FileNotFoundError:
+    print("File doesn't exist")
+    send_email('ram.paramhansa', 'R1mkr1shn1', 'ram.paramhansa@outlook.com', 'Hello, file doesnt exist', 'Hello! Hello, file doesnt exist')
+
+
+ftp = FTP('speedtest.tele2.net')
+ftp.login()
+ftp.cwd('upload')
+fh = open("C:\\Users\\Ram-PC\\Desktop\\python_script\\xmen_base.txt", 'rb')
+status = ftp.storbinary('STOR xmen_base.txt', fh)
+print(status)
+ftp.retrlines('LIST')
+ftp.quit()
